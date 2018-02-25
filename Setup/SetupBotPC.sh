@@ -30,8 +30,8 @@ sudo apt-get -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
 
 sudo apt-get -y install python-dev python-pip python3-dev python3-pip
 
-sudo -H pip install numpy scipy matplotlib scikit-image scikit-learn ipython
-sudo -H pip3 install numpy scipy matplotlib scikit-image scikit-learn ipython
+sudo -H pip install numpy scipy matplotlib scikit-image scikit-learn ipython pyserial
+sudo -H pip3 install numpy scipy matplotlib scikit-image scikit-learn ipython pyserial
 
 
 git clone https://github.com/opencv/opencv.git
