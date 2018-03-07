@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="825">
     <DockPanel>
         <DockPanel  DockPanel.Dock="Top" LastChildFill="True">
             <Button Content="..." Click="Browse_Click" DockPanel.Dock="Right"/>
             <Button Content="&gt;" Click="Prev_Click" DockPanel.Dock="Right"/>
             <Button Content="&lt;" Click="Next_Click" DockPanel.Dock="Right"/>
-            <TextBox x:Name="Filename" IsEnabled="False" Width="1000"/>
+            <TextBox x:Name="Maskthreshold" DockPanel.Dock="Right" Width="100" Text="0.05"/>
+            <TextBox x:Name="Filename" IsEnabled="False"/>
         </DockPanel>
         <Image x:Name="Image" DockPanel.Dock="Bottom"/>
     </DockPanel>

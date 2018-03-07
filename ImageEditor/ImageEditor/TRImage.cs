@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+﻿using System.Drawing;
 
 namespace ImageEditor
 {
-    class TRImage
+    class TrImage
     {
         public enum MaskDrawType { SelectedOnly, DimOthers }
 
@@ -47,7 +41,7 @@ namespace ImageEditor
             }
         }
 
-        public void CalculateCatecoryMask(float stresshold)
+        public void CalculateCatecoryMask(float threshold)
         {
             CatecoryMask = new int[OriginalImage.Width, OriginalImage.Height];
 
@@ -55,7 +49,7 @@ namespace ImageEditor
             {
                 for (int y = 0; y < OriginalImage.Height; y++)
                 {
-                    CatecoryMask[x, y] = ExcessiveGreen[x, y] > stresshold ? 1 : 0;
+                    CatecoryMask[x, y] = ExcessiveGreen[x, y] > threshold ? 1 : 0;
                 }
             }
         }
