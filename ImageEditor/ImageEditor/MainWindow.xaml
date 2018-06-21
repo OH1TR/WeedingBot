@@ -11,9 +11,26 @@
             <Button Content="..." Click="Browse_Click" DockPanel.Dock="Right"/>
             <Button Content="&gt;" Click="Prev_Click" DockPanel.Dock="Right"/>
             <Button Content="&lt;" Click="Next_Click" DockPanel.Dock="Right"/>
+            <Button Content="Reload" Click="Reload_Click" DockPanel.Dock="Right"/>
+            <RadioButton x:Name="rbDimBg" Content="Dim bg" DockPanel.Dock="Right" GroupName="gr1" IsChecked="True" Checked="rb_OnChecked"/>
+            <RadioButton x:Name="rbOnlyBg" Content="Only bg" DockPanel.Dock="Right"  GroupName="gr1" Checked="rb_OnChecked"/>
+            <RadioButton x:Name="rbDimPlant" Content="Dim plant" DockPanel.Dock="Right" GroupName="gr1" IsChecked="True" Checked="rb_OnChecked"/>
+            <RadioButton x:Name="rbOnlyPlant" Content="Only plant" DockPanel.Dock="Right"  GroupName="gr1" Checked="rb_OnChecked"/>
+            <RadioButton x:Name="rbNone" Content="None" DockPanel.Dock="Right"  GroupName="gr1" Checked="rb_OnChecked"/>
             <TextBox x:Name="Maskthreshold" DockPanel.Dock="Right" Width="100" Text="0.05"/>
+            <Slider Value="{Binding Path=Scale}" Minimum="1" Maximum="5" DockPanel.Dock="Right" Width="100"/>
+
             <TextBox x:Name="Filename" IsEnabled="False"/>
         </DockPanel>
-        <Image x:Name="Image" DockPanel.Dock="Bottom"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <Viewbox  VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Viewbox.LayoutTransform >
+                    <ScaleTransform ScaleX="{Binding Path=Scale}" ScaleY="{Binding Path=Scale, Mode=TwoWay}" />
+                </Viewbox.LayoutTransform>
+                <Image x:Name="Image" DockPanel.Dock="Bottom">
+
+                </Image>
+            </Viewbox>
+        </ScrollViewer>
     </DockPanel>
 </Window>

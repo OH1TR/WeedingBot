@@ -1,28 +1,35 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ImageEditor.Annotations;
 
 namespace ImageEditor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow :INotifyPropertyChanged
     {
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         string _filename;
         TrImage _image;
+        private double _scale=1;
+        private TrImage.MaskDrawType MaskType;
+        private int MaskLayer;
 
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
@@ -55,6 +62,11 @@ namespace ImageEditor
             NavigateImage(1);
         }
 
+        private void Reload_Click(object sender, RoutedEventArgs e)
+        {
+            LoadImageToView();
+        }
+
         void NavigateImage(int direction)
         {
             string currentFileName = Path.GetFileName(_filename);
@@ -73,6 +85,9 @@ namespace ImageEditor
 
         private void LoadImageToView()
         {
+            if(Maskthreshold==null)
+                return;
+            
             CultureInfo invC = CultureInfo.InvariantCulture;
 
             if (float.TryParse(Maskthreshold.Text,NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, invC, out float threshold))
@@ -80,7 +95,7 @@ namespace ImageEditor
                 _image = new TrImage();
                 _image.LoadImage(_filename);
                 _image.CalculateCatecoryMask(threshold);
-                Image.Source = ImageSourceForBitmap(_image.DrawMask(TrImage.MaskDrawType.DimOthers, 0));
+                Image.Source = ImageSourceForBitmap(_image.DrawMask(MaskType, MaskLayer));
             }
             else
                 MessageBox.Show("Bad threshold");
@@ -99,6 +114,67 @@ namespace ImageEditor
                 return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
             finally { DeleteObject(handle); }
+        }
+
+
+        public double Scale
+        {
+            get { return _scale; }
+            set
+            {
+                if (value.Equals(_scale)) return;
+                _scale = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void rb_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if(rbDimBg==null || rbOnlyBg == null || rbDimPlant == null || rbOnlyPlant == null )
+                return;
+            
+            if (rbDimBg.IsChecked ?? false)
+            {
+                MaskType = TrImage.MaskDrawType.DimOthers;
+                MaskLayer = 1;
+            }
+
+
+            if (rbOnlyBg.IsChecked ?? false)
+            {
+                MaskType = TrImage.MaskDrawType.SelectedOnly;
+                MaskLayer = 1;
+            }
+
+            if (rbDimPlant.IsChecked ?? false)
+            {
+                MaskType = TrImage.MaskDrawType.DimOthers;
+                MaskLayer = 0;
+            }
+
+
+            if (rbOnlyPlant.IsChecked ?? false)
+            {
+                MaskType = TrImage.MaskDrawType.SelectedOnly;
+                MaskLayer = 0;
+            }
+
+            if (rbNone.IsChecked ?? false)
+            {
+                MaskType = TrImage.MaskDrawType.None;
+                MaskLayer = 0;
+            }
+            
+
+            LoadImageToView();
         }
     }
 }
