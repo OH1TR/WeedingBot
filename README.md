@@ -4,6 +4,6 @@ Bot is build on frame of old lawn mover. Jetson Nano board handles communication
 
 Code is a mess, but it moves.. :-)
 
-![Camera prototype](//OH1TR/WeedingBot/Media/Robot.png)
+![Robot](/Media/Robot.png)
 
 Video: https://www.facebook.com/100010379521880/videos/999905427032099/
