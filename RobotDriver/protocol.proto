@@ -1,0 +1,13 @@
+syntax = "proto3";
+package robotdriver;
+
+option csharp_namespace = "RobotDriver";
+
+message Request {
+  string name = 1;
+  }
+
+message Image {
+  string format = 1;
+  bytes data = 2;
+}
