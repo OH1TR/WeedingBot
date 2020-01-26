@@ -1,5 +1,5 @@
 import socketserver
-from protocol_pb2 import Request,Image
+from protocol_pb2 import Steering,Image
 from google.protobuf.any_pb2 import Any
 from threading import Lock,Thread
 import time
@@ -7,8 +7,9 @@ import cv2
 import array
 from numproto import ndarray_to_proto, proto_to_ndarray
 import traceback
+import serial
 
-global connectedSocket, connectedSocketLock
+global connectedSocket, connectedSocketLock, ser
 
 connectedSocket=None
 connectedSocketLock = Lock()
@@ -38,10 +39,14 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 if not data:
                     break
                 print("P")
-                o=Request()
+                o=Steering()
                 o.ParseFromString(data)
-                print(o)
+                values = bytearray(o.command,'ascii')
+                ser.write(values)
+                print(o.command)
             except:
+                print("R Exception")
+                print(traceback.format_exc())
                 break;
         self.request.close()
         print("Q1")
@@ -60,7 +65,8 @@ def startServer():
 
 
 if __name__ == "__main__":
-    HOST, PORT = "", 9996
+    ser = serial.Serial('/dev/ttyUSB0',1200,rtscts=0)
+    HOST, PORT = "your ip", 9997
     t=Thread(target=startServer)
     t.start()
     cap = cv2.VideoCapture(0)
@@ -79,7 +85,7 @@ if __name__ == "__main__":
 
                     x=Image()
                     x.format="jpg"
-                    x.data=cv2.imencode(".jpg",img)[1].tobytes()
+                    x.data=cv2.imencode(".jpg",img[:,0:1024])[1].tobytes()
                     msg=x.SerializeToString()
                     lmsg=len(msg).to_bytes(4, byteorder='little')
                     connectedSocket.send(lmsg)

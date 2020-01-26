@@ -29,8 +29,8 @@ namespace RobotClient
         {
             //IPHostEntry ipHostInfo = Dns.GetHostEntry(_host);
             //IPAddress ipAddress = ipHostInfo.AddressList.Where(i=>i.AddressFamily==AddressFamily.InterNetwork).FirstOrDefault();
-            IPAddress ipAddress = new IPAddress(new byte[] { 192, 168, 98, 52 });
-            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 9996);
+            IPAddress ipAddress = new IPAddress(new byte[] { 192, 168, 0, 1 });
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 9997);
 
             socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
@@ -42,12 +42,6 @@ namespace RobotClient
             {
                 MessageBox.Show(ex.ToString());
             }
-
-            Request r = new Request();
-            r.Name = "Send images";
-            byte[] msg = r.ToByteArray();
-            socket.Send(BitConverter.GetBytes(msg.Length));
-            socket.Send(msg);
 
             Task.Run(() => ReceiverThread(socket));
         }
@@ -75,6 +69,15 @@ namespace RobotClient
             {
                 pos += s.Receive(buf, pos, buf.Length - pos, SocketFlags.None);
             }
+        }
+
+        public void SendCommand(string cmd)
+        {
+            Steering r = new Steering();
+            r.Command = cmd;
+            byte[] msg = r.ToByteArray();
+            socket.Send(BitConverter.GetBytes(msg.Length));
+            socket.Send(msg);
         }
     }
 }

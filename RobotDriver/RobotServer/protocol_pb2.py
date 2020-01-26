@@ -18,21 +18,21 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='robotdriver',
   syntax='proto3',
   serialized_options=b'\252\002\013RobotDriver',
-  serialized_pb=b'\n\x0eprotocol.proto\x12\x0brobotdriver\"\x17\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\"%\n\x05Image\x12\x0e\n\x06\x66ormat\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x42\x0e\xaa\x02\x0bRobotDriverb\x06proto3'
+  serialized_pb=b'\n\x0eprotocol.proto\x12\x0brobotdriver\"\x1b\n\x08Steering\x12\x0f\n\x07\x63ommand\x18\x01 \x01(\t\"%\n\x05Image\x12\x0e\n\x06\x66ormat\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x42\x0e\xaa\x02\x0bRobotDriverb\x06proto3'
 )
 
 
 
 
-_REQUEST = _descriptor.Descriptor(
-  name='Request',
-  full_name='robotdriver.Request',
+_STEERING = _descriptor.Descriptor(
+  name='Steering',
+  full_name='robotdriver.Steering',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='robotdriver.Request.name', index=0,
+      name='command', full_name='robotdriver.Steering.command', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -51,7 +51,7 @@ _REQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=31,
-  serialized_end=54,
+  serialized_end=58,
 )
 
 
@@ -88,20 +88,20 @@ _IMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=56,
-  serialized_end=93,
+  serialized_start=60,
+  serialized_end=97,
 )
 
-DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
+DESCRIPTOR.message_types_by_name['Steering'] = _STEERING
 DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), {
-  'DESCRIPTOR' : _REQUEST,
+Steering = _reflection.GeneratedProtocolMessageType('Steering', (_message.Message,), {
+  'DESCRIPTOR' : _STEERING,
   '__module__' : 'protocol_pb2'
-  # @@protoc_insertion_point(class_scope:robotdriver.Request)
+  # @@protoc_insertion_point(class_scope:robotdriver.Steering)
   })
-_sym_db.RegisterMessage(Request)
+_sym_db.RegisterMessage(Steering)
 
 Image = _reflection.GeneratedProtocolMessageType('Image', (_message.Message,), {
   'DESCRIPTOR' : _IMAGE,

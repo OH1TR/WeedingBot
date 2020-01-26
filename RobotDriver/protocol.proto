@@ -3,8 +3,8 @@ package robotdriver;
 
 option csharp_namespace = "RobotDriver";
 
-message Request {
-  string name = 1;
+message Steering {
+  string command = 1;
   }
 
 message Image {

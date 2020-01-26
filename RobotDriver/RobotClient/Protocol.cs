@@ -24,13 +24,13 @@ namespace RobotDriver {
     static ProtocolReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg5wcm90b2NvbC5wcm90bxILcm9ib3Rkcml2ZXIiFwoHUmVxdWVzdBIMCgRu",
-            "YW1lGAEgASgJIiUKBUltYWdlEg4KBmZvcm1hdBgBIAEoCRIMCgRkYXRhGAIg",
-            "ASgMQg6qAgtSb2JvdERyaXZlcmIGcHJvdG8z"));
+            "Cg5wcm90b2NvbC5wcm90bxILcm9ib3Rkcml2ZXIiGwoIU3RlZXJpbmcSDwoH",
+            "Y29tbWFuZBgBIAEoCSIlCgVJbWFnZRIOCgZmb3JtYXQYASABKAkSDAoEZGF0",
+            "YRgCIAEoDEIOqgILUm9ib3REcml2ZXJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::RobotDriver.Request), global::RobotDriver.Request.Parser, new[]{ "Name" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RobotDriver.Steering), global::RobotDriver.Steering.Parser, new[]{ "Command" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RobotDriver.Image), global::RobotDriver.Image.Parser, new[]{ "Format", "Data" }, null, null, null, null)
           }));
     }
@@ -38,11 +38,11 @@ namespace RobotDriver {
 
   }
   #region Messages
-  public sealed partial class Request : pb::IMessage<Request> {
-    private static readonly pb::MessageParser<Request> _parser = new pb::MessageParser<Request>(() => new Request());
+  public sealed partial class Steering : pb::IMessage<Steering> {
+    private static readonly pb::MessageParser<Steering> _parser = new pb::MessageParser<Steering>(() => new Steering());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Request> Parser { get { return _parser; } }
+    public static pb::MessageParser<Steering> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -55,55 +55,55 @@ namespace RobotDriver {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Request() {
+    public Steering() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Request(Request other) : this() {
-      name_ = other.name_;
+    public Steering(Steering other) : this() {
+      command_ = other.command_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Request Clone() {
-      return new Request(this);
+    public Steering Clone() {
+      return new Steering(this);
     }
 
-    /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 1;
-    private string name_ = "";
+    /// <summary>Field number for the "command" field.</summary>
+    public const int CommandFieldNumber = 1;
+    private string command_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Name {
-      get { return name_; }
+    public string Command {
+      get { return command_; }
       set {
-        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        command_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as Request);
+      return Equals(other as Steering);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Request other) {
+    public bool Equals(Steering other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Name != other.Name) return false;
+      if (Command != other.Command) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Command.Length != 0) hash ^= Command.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -117,9 +117,9 @@ namespace RobotDriver {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Name.Length != 0) {
+      if (Command.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Name);
+        output.WriteString(Command);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -129,8 +129,8 @@ namespace RobotDriver {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      if (Command.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Command);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -139,12 +139,12 @@ namespace RobotDriver {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Request other) {
+    public void MergeFrom(Steering other) {
       if (other == null) {
         return;
       }
-      if (other.Name.Length != 0) {
-        Name = other.Name;
+      if (other.Command.Length != 0) {
+        Command = other.Command;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -158,7 +158,7 @@ namespace RobotDriver {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Name = input.ReadString();
+            Command = input.ReadString();
             break;
           }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RobotDriver;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RobotClient
 {
@@ -22,6 +24,7 @@ namespace RobotClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        XInputController input = new XInputController();
         ImageConverter _imageConverter = new ImageConverter();
 
         SocketClient sock;
@@ -34,9 +37,28 @@ namespace RobotClient
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //sock = new SocketClient("localhost");
-            sock = new SocketClient("");
+            sock = new SocketClient("192.168.98.52");
             sock.OnImageReceived += Sock_OnImageReceived;
             sock.Connect();
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(200);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            input.Update();
+            Console.WriteLine("LT"+input.leftTrigger);
+
+            string cmd =
+                "\r" + (input.leftTrigger>200?"Z\r":"") +
+                 "W" + String.Format("{0:+000;-000;+000}", -input.LeftThumbY*2.55) + "\r" +
+                 "S" + String.Format("{0:+000;-000;+000}", -input.LeftThumbX/3) + "\r";
+
+            Console.WriteLine(cmd);
+            sock.SendCommand(cmd);
         }
 
         private void Sock_OnImageReceived(byte[] image)
@@ -47,7 +69,7 @@ namespace RobotClient
             {
                 img.Source = BitmapToImageSource(bm);
             });
-            
+
         }
 
         BitmapImage BitmapToImageSource(Bitmap bitmap)
