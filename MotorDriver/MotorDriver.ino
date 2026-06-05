@@ -98,6 +98,7 @@ void processCommand(char *cmd)
     position=0;
     targetPosition=0;
     interrupts();
+    Counter=0;
   }
 
   // Set steering target value
@@ -106,6 +107,7 @@ void processCommand(char *cmd)
     noInterrupts();
     targetPosition = - ParseInt(cmd+1);
     interrupts();
+    Counter=0;
   }
 
   // Set Drive motor direction and speed
@@ -125,7 +127,7 @@ void processCommand(char *cmd)
       delay(50);
       analogWrite(PwmPin,-targetDrive);
     }
-    
+    Counter=0;
   }
 
   if(cmd[0]=='D')
@@ -135,6 +137,7 @@ void processCommand(char *cmd)
     Serial.print(" Position=");
     Serial.print(position);
     Serial.print("\n");
+    Counter=0;
   }
 }
 
@@ -145,6 +148,39 @@ void loop()
     Counter=0;
     
     byte inByte = Serial.read();
+    
+    if(inByte=='w')
+    {
+      digitalWrite(DirectionPin,HIGH);
+      delay(50);
+      analogWrite(PwmPin,255);
+      Counter=0;
+      return;
+    } 
+
+    if(inByte=='s')
+    {
+      digitalWrite(DirectionPin,LOW);
+      delay(50);
+      analogWrite(PwmPin,255);
+      Counter=0;
+      return;
+    } 
+
+    if(inByte=='a')
+    {
+     targetPosition=-999;
+     Counter=0;
+     return;
+    }     
+
+    if(inByte=='d')
+    {
+     targetPosition=999;
+     Counter=0;
+     return;
+    }     
+    
     cmdBuf[cmdBufPos]=inByte;
     cmdBufPos++;
 
