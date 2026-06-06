@@ -123,7 +123,9 @@ void processCommand(char *cmd)
     }
     else
     {
-      digitalWrite(DirectionPin,HIGH);
+      if(targetDrive!=0)
+        digitalWrite(DirectionPin,HIGH);
+      
       delay(50);
       analogWrite(PwmPin,-targetDrive);
     }
