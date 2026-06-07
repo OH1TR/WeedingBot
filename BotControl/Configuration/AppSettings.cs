@@ -25,6 +25,24 @@ public class MotorSettings
     public int CommandRepeatIntervalMs { get; set; } = 200;
 }
 
+public class GpsSettings
+{
+    public string SerialPort { get; set; } = "/dev/ttyACM0";
+    public int BaudRate { get; set; } = 9600;
+}
+
+public class MqttSettings
+{
+    public string Host { get; set; } = "";
+    public int Port { get; set; } = 1883;
+    public bool UseTls { get; set; } = false;
+    public string Username { get; set; } = "";
+    public string Password { get; set; } = "";
+    public string ClientId { get; set; } = "botcontrol";
+    public string BotLocationTopic { get; set; } = "botlocation";
+    public int PublishIntervalMs { get; set; } = 1000;
+}
+
 public class LoggingSettings
 {
     public string LogFilePath { get; set; } = "logs/botcontrol.log";

@@ -13,6 +13,7 @@ public class CameraService : IHostedService, IDisposable
 {
     private readonly CameraSettings _settings;
     private readonly ILogger<CameraService> _logger;
+    private readonly GpsService _gpsService;
     private Process? _pythonProcess;
     private TcpClient? _tcpClient;
     private NetworkStream? _stream;
@@ -24,10 +25,11 @@ public class CameraService : IHostedService, IDisposable
 
     public event EventHandler<CaptureInfo>? ImageCaptured;
 
-    public CameraService(IOptions<CameraSettings> settings, ILogger<CameraService> logger)
+    public CameraService(IOptions<CameraSettings> settings, ILogger<CameraService> logger, GpsService gpsService)
     {
         _settings = settings.Value;
         _logger = logger;
+        _gpsService = gpsService;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -167,18 +169,31 @@ public class CameraService : IHostedService, IDisposable
         double.TryParse(parts[3], System.Globalization.NumberStyles.Float,
             System.Globalization.CultureInfo.InvariantCulture, out var uptimeSeconds);
 
+        var gps = _gpsService.CurrentPosition;
+
         var info = new CaptureInfo
         {
             FileName = fileName,
             FilePath = filePath,
             Sequence = sequence,
             UptimeSeconds = uptimeSeconds,
-            WallClockUtc = DateTimeOffset.UtcNow,
-            IsTimeSynced = false
+            WallClockUtc = gps is { HasFix: true } ? gps.GpsTime : DateTimeOffset.UtcNow,
+            IsTimeSynced = gps is { HasFix: true },
+            Latitude = gps?.Latitude,
+            Longitude = gps?.Longitude,
+            Altitude = gps?.Altitude,
+            Heading = gps?.Heading,
+            Speed = gps?.Speed
         };
 
-        _logger.LogInformation("Image captured: {FileName} seq={Sequence} uptime={Uptime:F1}s",
-            fileName, sequence, uptimeSeconds);
+        if (info.IsTimeSynced)
+            _logger.LogInformation(
+                "Image captured: {FileName} seq={Sequence} GPS={Lat:F6},{Lon:F6}",
+                fileName, sequence, info.Latitude, info.Longitude);
+        else
+            _logger.LogInformation(
+                "Image captured: {FileName} seq={Sequence} (no GPS fix)",
+                fileName, sequence);
         ImageCaptured?.Invoke(this, info);
     }
 

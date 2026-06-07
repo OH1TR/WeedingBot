@@ -31,13 +31,18 @@ try
             services.Configure<CameraSettings>(context.Configuration.GetSection("Camera"));
             services.Configure<UploadSettings>(context.Configuration.GetSection("Upload"));
             services.Configure<MotorSettings>(context.Configuration.GetSection("Motor"));
+            services.Configure<GpsSettings>(context.Configuration.GetSection("Gps"));
+            services.Configure<MqttSettings>(context.Configuration.GetSection("Mqtt"));
 
             services.AddSingleton<MotorController>();
             services.AddSingleton<RobotDriver>();
             services.AddSingleton<CameraService>();
+            services.AddSingleton<GpsService>();
 
             services.AddHostedService(sp => sp.GetRequiredService<CameraService>());
+            services.AddHostedService(sp => sp.GetRequiredService<GpsService>());
             services.AddHostedService<ImageUploadService>();
+            services.AddHostedService<MqttService>();
             services.AddHostedService<KeyboardController>();
         })
         .Build();

@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(npm create:*)",
+      "WebFetch(domain:www.maanmittauslaitos.fi)",
+      "PowerShell(npm *)"
     ]
   }
 }
